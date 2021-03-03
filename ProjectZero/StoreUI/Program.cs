@@ -28,9 +28,13 @@ namespace StoreUI
             //using statement used to dispose of the context when its no longer used 
             using var context = new StoreDBContext(options);
 
-            IMenu menu = new StoreMenu(new CustomerBL(new CustomerRepoDB(context, new StoreMapper())), new LocationBL(new LocationRepoDB(context, new StoreMapper())),
-             new ProductBL(new ProductRepoDB(context, new StoreMapper())));
+            IMenu menu = new StoreEntryMenu(new StoreBL.StoreBL(new StoreRepoDB(context, new StoreMapper())));
+            //IMenu menu = new StoreMenu(new StoreBL.StoreBL(new StoreRepoDB(context, new StoreMapper())));
+
+
+            //IMenu menu = new StoreMenu(new CustomerBL(new CustomerRepoDB(context, new StoreMapper())), new LocationBL(new LocationRepoDB(context, new StoreMapper())),
+            // new ProductBL(new ProductRepoDB(context, new StoreMapper())));
             menu.Start();
-           }
+        }
     }
 }

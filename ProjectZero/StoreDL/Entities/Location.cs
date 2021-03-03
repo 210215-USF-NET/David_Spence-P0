@@ -10,5 +10,7 @@ namespace StoreDL.Entities
         public int Id { get; set; }
         public string LocationName { get; set; }
         public string City { get; set; }
+
+        
     }
 }

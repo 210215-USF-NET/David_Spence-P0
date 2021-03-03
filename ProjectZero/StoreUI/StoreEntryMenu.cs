@@ -2,14 +2,17 @@ using System;
 using StoreModels;
 using StoreBL;
 using StoreDL;
+using System.Collections.Generic;
 
 namespace StoreUI
 {
-    public class StoreMenu : IMenu
+    public class StoreEntryMenu : IMenu
     {
+        
+        IMenu menu; 
         public IStoreBL storeBL;
 
-        public StoreMenu(IStoreBL _storeBL)
+        public StoreEntryMenu(IStoreBL _storeBL)
         {
             storeBL = _storeBL;
         }
@@ -20,20 +23,18 @@ namespace StoreUI
             {
                 //menu options
                 Console.WriteLine("Welcome to the plastic fruit store!");
-                Console.WriteLine("[0] Create a customer");
-                Console.WriteLine("[1] Get all customers");
-                Console.WriteLine("[2] Search for a customer");
-                Console.WriteLine("[3] Show  all Location details");
-                Console.WriteLine("[4] List all products");
-                Console.WriteLine("[5] Exit");
-
+                Console.WriteLine("[1] Sign up as a new Customer");
+                Console.WriteLine("[2] Login as an existing Customer");
+                //Manager login
+                Console.WriteLine("[3] List all Customers");
+                Console.WriteLine("[9] Exit");
                 //get user input
                 Console.WriteLine("Enter a number: ");
                 string userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
-                    case "0":
+                    case "1":
                         try
                         {
                             CreateCustomer();
@@ -44,19 +45,13 @@ namespace StoreUI
                             continue;
                         }
                         break;
-                    case "1":
-                        GetCustomer();
-                        break;
                     case "2":
                         SearchCustomer();
                         break;
                     case "3":
-                        GetLocations();
+                        GetCustomers();
                         break;
-                    case "4":
-                        GetProducts();
-                        break;
-                    case "5":
+                    case "9":
                         stay = false;
                         ExitRemarks();
                         break;
@@ -65,8 +60,7 @@ namespace StoreUI
                         break;
                 }
             } while (stay);
-
-        }
+    }
         public void CreateCustomer()
         {
             // Create hero method/logic
@@ -75,13 +69,11 @@ namespace StoreUI
             newCustomer.Name = Console.ReadLine();
             Console.WriteLine("Enter phone number: ");
             newCustomer.Phone = Console.ReadLine();
-            
             storeBL.AddCustomer(newCustomer);
-
             Console.WriteLine("Customer Succesfully created!");
-
+            CustomerLogin(newCustomer);
         }
-        public void GetCustomer()
+        public void GetCustomers()
         {
             foreach (var item in storeBL.GetCustomer())
             {
@@ -100,26 +92,15 @@ namespace StoreUI
             }
             else
             {
-                Console.WriteLine(foundCustomer.ToString());
+                //Console.WriteLine(foundCustomer.ToString());
+                CustomerLogin(foundCustomer);
             }
         }
-        public void GetLocations()
+        public void CustomerLogin(Customer c)
         {
-            foreach (var item in storeBL.GetLocations())
-            {
-                Console.WriteLine(item.ToString());
-            }
-            Console.WriteLine("Press any key to continue");
-            Console.ReadLine();
-        }
-        public void GetProducts()
-        {
-            foreach (var item in storeBL.GetProducts())
-            {
-                Console.WriteLine(item.ToString());
-            }
-            Console.WriteLine("Press any key to continue");
-            Console.ReadLine();
+            //start customer menu
+            menu = new CustomerMenu(storeBL, c);
+            menu.Start();
         }
         public void ExitRemarks()
         {

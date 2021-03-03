@@ -10,6 +10,10 @@ namespace StoreDL
         Model.Location ParseLocation(Entity.Location location);
         Model.Product ParseProduct(Entity.Product product);
         Model.Order ParseOrder(Entity.Order order);
-        Entity.Order ParserOrder(Model.Order order);
+        Entity.Order ParseOrder(Model.Order order);
+        Model.Inventory ParseInventory(Entity.Inventory inventory);
+        Entity.Inventory ParseInventory(Model.Inventory inventory);
+        Model.Item ParseItem(Entity.OrderItem item);
+        Entity.OrderItem ParseItem(Model.Item item);
     }
 }
